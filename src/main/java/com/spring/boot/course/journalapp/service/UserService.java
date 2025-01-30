@@ -2,11 +2,13 @@ package com.spring.boot.course.journalapp.service;
 
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -17,16 +19,33 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    /*public boolean saveNewUser(User user) {
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            log.error("hahahhahhahahahah");
+            log.warn("hahahhahhahahahah");
+            log.info("hahahhahhahahahah");
+            log.debug("hahahhahhahahahah");
+            log.trace("hahahhahhahahahah");
+            return false;
+        }
     }
+
+    public void saveAdmin(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER", "ADMIN"));
+        userRepository.save(user);
+    }*/
 
     public String saveUser(User user) {
         if (this.userRepository.findByUserName(user.getUserName()) != null) {
             return "User already exists";
         }
-        return userRepository.save(user).getUserName()+" registered Successfully";
+        return userRepository.save(user).getUserName() + " registered Successfully";
     }
 
     public ResponseEntity<?> updateUser(User user, String username) {
@@ -40,11 +59,26 @@ public class UserService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<User> getUserByName(String userName) {
+    public User getUserByName(String userName) {
         User user = this.userRepository.findByUserName(userName);
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return userRepository.findByUserName(userName);
         }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return null;
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+
+    public Optional<User> findById(ObjectId id) {
+        return userRepository.findById(id);
+    }
+
+    public void deleteById(ObjectId id) {
+        userRepository.deleteById(id);
+    }
+
+
 }

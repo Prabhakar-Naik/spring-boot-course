@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/journals")
@@ -26,9 +27,9 @@ public class JournalEntryController {
     }
 
     @GetMapping(value = "/getJournalEntriesByUser/{userName}")
-    public ResponseEntity<?> getAllJournalEntriesByUser(@RequestParam String userName) {
-        ResponseEntity<User> user = this.userService.getUserByName(userName);
-        List<JournalEntry> all = user.getBody().getJournalEntries();
+    public ResponseEntity<?> getAllJournalEntriesByUser(@PathVariable String userName) {
+        User user = this.userService.getUserByName(userName);
+        List<JournalEntry> all = Objects.requireNonNull(user.getJournalEntries());
         if (!all.isEmpty() && all != null) {
             return ResponseEntity.ok(all);
         }
