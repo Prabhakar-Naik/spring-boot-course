@@ -1,0 +1,25 @@
+###
+GET http://localhost:8082/users/getAllUsers
+
+###
+POST http://localhost:8082/users/createUser
+Content-Type: application/json
+
+{
+  "userName": "prabha",
+  "email": "prabhakar@gmail.com",
+  "sentimentAnalysis": false,
+  "password": "prabha225"
+}
+
+###
+PUT http://localhost:8082/users/updateUser/prabhakar
+Content-Type: application/json
+
+{
+  "userName": "prabhakar",
+  "password": "prabha12345"
+}
+
+###
+GET http://localhost:8082/users/getUserByUserName/prabha

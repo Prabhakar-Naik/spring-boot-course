@@ -1,7 +1,9 @@
 package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.journalapp.entity.JournalEntry;
+import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.JournalEntryService;
+import com.spring.boot.course.journalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,22 @@ public class JournalEntryController {
     @Autowired
     private JournalEntryService journalEntryService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping(value = "/getAllJournalEntries")
     public ResponseEntity<List<JournalEntry>> getAllJournalEntries() {
         return ResponseEntity.ok(this.journalEntryService.findAll());
+    }
+
+    @GetMapping(value = "/getJournalEntriesByUser/{userName}")
+    public ResponseEntity<?> getAllJournalEntriesByUser(@RequestParam String userName) {
+        ResponseEntity<User> user = this.userService.getUserByName(userName);
+        List<JournalEntry> all = user.getBody().getJournalEntries();
+        if (!all.isEmpty() && all != null) {
+            return ResponseEntity.ok(all);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping(value = "/saveJournalEntry")

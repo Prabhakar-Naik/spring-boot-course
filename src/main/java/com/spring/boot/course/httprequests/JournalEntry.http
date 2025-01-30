@@ -1,0 +1,31 @@
+###
+GET http://localhost:8082/journals/getAllJournalEntries
+
+###
+POST http://localhost:8082/journals/saveJournalEntry
+Content-Type: application/json
+
+{
+  "title": "VVV",
+  "description": "VVV",
+  "author": "VVV"
+}
+
+###
+PUT http://localhost:8082/journals/updateJournalEntry
+Content-Type: application/json
+
+{
+  "id": "6fc2c7f5-75ae-4e85-865b-76282094c88c",
+  "title": "6fc2c7f5-75ae-4e85-865b-76282094c88c",
+  "description": "6fc2c7f5-75ae-4e85-865b-76282094c88c",
+  "author": "6fc2c7f5-75ae-4e85-865b-76282094c88c"
+}
+
+
+###
+GET http://localhost:8082/journals/getJournalEntryById/6fc2c7f5-75ae-4e85-865b-76282094c88c
+
+
+###
+DELETE http://localhost:8082/journals/deleteJournalEntryById/6fc2c7f5-75ae-4e85-865b-76282094c88c
