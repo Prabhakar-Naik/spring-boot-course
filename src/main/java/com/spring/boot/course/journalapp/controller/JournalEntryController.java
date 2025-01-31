@@ -21,11 +21,6 @@ public class JournalEntryController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/getAllJournalEntries")
-    public ResponseEntity<List<JournalEntry>> getAllJournalEntries() {
-        return ResponseEntity.ok(this.journalEntryService.findAll());
-    }
-
     @GetMapping(value = "/getJournalEntriesByUser/{userName}")
     public ResponseEntity<?> getAllJournalEntriesByUser(@PathVariable String userName) {
         User user = this.userService.getUserByName(userName);
@@ -36,9 +31,11 @@ public class JournalEntryController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping(value = "/saveJournalEntry")
-    public ResponseEntity<String> saveJournalEntry(@RequestBody JournalEntry journalEntry) {
-        journalEntryService.save(journalEntry);
+
+
+    @PostMapping(value = "/saveJournalEntry/{userName}")
+    public ResponseEntity<String> saveJournalEntry(@RequestBody JournalEntry journalEntry, @PathVariable String userName) {
+        this.journalEntryService.saveEntry(journalEntry, userName);
         return ResponseEntity.ok("Successfully saved journal entry "+ journalEntry);
     }
 
@@ -59,5 +56,9 @@ public class JournalEntryController {
         return ResponseEntity.ok("Successfully deleted journal entry "+ id);
     }
 
+    @GetMapping(value = "/getAllJournalEntries")
+    public ResponseEntity<List<JournalEntry>> getAllJournalEntries() {
+        return ResponseEntity.ok(this.journalEntryService.findAll());
+    }
 
 }

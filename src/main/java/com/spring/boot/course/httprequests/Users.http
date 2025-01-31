@@ -6,7 +6,7 @@ POST http://localhost:8082/users/createUser
 Content-Type: application/json
 
 {
-  "userName": "prabha",
+  "userName": "prabhakar",
   "email": "prabhakar@gmail.com",
   "sentimentAnalysis": false,
   "password": "prabha225"

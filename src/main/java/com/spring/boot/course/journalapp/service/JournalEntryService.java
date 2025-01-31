@@ -1,22 +1,41 @@
 package com.spring.boot.course.journalapp.service;
 
 import com.spring.boot.course.journalapp.entity.JournalEntry;
+import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.JournalEntryRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Slf4j
 public class JournalEntryService {
 
     @Autowired
     private JournalEntryRepository journalEntryRepository;
 
-    public void save(JournalEntry journalEntry) {
+    @Autowired
+    private UserService userService;
+
+    @Transactional
+    public void saveEntry(JournalEntry journalEntry, String userName) {
+        User user = userService.getUserByName(userName);
+
         journalEntry.setId(UUID.randomUUID().toString());
         journalEntry.setPublishDate(LocalDate.now());
+        JournalEntry saved = journalEntryRepository.save(journalEntry);
+
+        user.getJournalEntries().add(saved);
+        userService.saveUser(user);
+    }
+
+    public void save(JournalEntry journalEntry) {
         journalEntryRepository.save(journalEntry);
     }
 
@@ -63,7 +82,24 @@ public class JournalEntryService {
     }
 
     public void deleteById(String id) {
-        journalEntryRepository.deleteById(id);
+        this.journalEntryRepository.deleteById(id);
+    }
+
+    @Transactional
+    public boolean deleteById(String id, String userName) {
+        boolean removed = false;
+        try {
+            User user = this.userService.getUserByName(userName);
+            removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
+            if (removed) {
+                this.userService.saveUser(user);
+                this.journalEntryRepository.deleteById(id);
+            }
+        } catch (Exception e) {
+            log.error("Error ",e);
+            throw new RuntimeException("An error occurred while deleting the entry.", e);
+        }
+        return removed;
     }
 
 

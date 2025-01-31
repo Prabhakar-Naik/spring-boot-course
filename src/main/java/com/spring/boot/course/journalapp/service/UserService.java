@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -41,11 +42,21 @@ public class UserService {
         userRepository.save(user);
     }*/
 
-    public String saveUser(User user) {
+    public String save(User user) {
+        user.setId(UUID.randomUUID().toString());
         if (this.userRepository.findByUserName(user.getUserName()) != null) {
             return "User already exists";
         }
         return userRepository.save(user).getUserName() + " registered Successfully";
+    }
+
+    public String saveUser(User user) {
+        User byUserName = this.userRepository.findByUserName(user.getUserName());
+        if ( byUserName != null) {
+            userRepository.save(user);
+            return "User exists";
+        }
+        return "Not Updated.";
     }
 
     public ResponseEntity<?> updateUser(User user, String username) {
@@ -72,11 +83,11 @@ public class UserService {
     }
 
 
-    public Optional<User> findById(ObjectId id) {
+    public Optional<User> findById(String id) {
         return userRepository.findById(id);
     }
 
-    public void deleteById(ObjectId id) {
+    public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 

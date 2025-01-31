@@ -2,13 +2,13 @@
 GET http://localhost:8082/journals/getAllJournalEntries
 
 ###
-POST http://localhost:8082/journals/saveJournalEntry
+POST http://localhost:8082/journals/saveJournalEntry/prabhakar
 Content-Type: application/json
 
 {
-  "title": "VVV",
-  "description": "VVV",
-  "author": "VVV"
+  "title": "ABC",
+  "description": "DEF",
+  "author": "prabhakar"
 }
 
 ###
@@ -29,3 +29,6 @@ GET http://localhost:8082/journals/getJournalEntryById/6fc2c7f5-75ae-4e85-865b-7
 
 ###
 DELETE http://localhost:8082/journals/deleteJournalEntryById/6fc2c7f5-75ae-4e85-865b-76282094c88c
+
+###
+GET http://localhost:8082/journals/getJournalEntriesByUser/prabhakar
