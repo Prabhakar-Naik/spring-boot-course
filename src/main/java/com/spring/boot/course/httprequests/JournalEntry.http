@@ -6,8 +6,8 @@ POST http://localhost:8082/journals/saveJournalEntry/prabhakar
 Content-Type: application/json
 
 {
-  "title": "ABC",
-  "description": "DEF",
+  "title": "Athul",
+  "description": "nirmal",
   "author": "prabhakar"
 }
 
@@ -26,9 +26,11 @@ Content-Type: application/json
 ###
 GET http://localhost:8082/journals/getJournalEntryById/6fc2c7f5-75ae-4e85-865b-76282094c88c
 
+###
+DELETE http://localhost:8082/journals/deleteById/734d2b86-6b18-4743-8bbb-cbcf323c85df
 
 ###
-DELETE http://localhost:8082/journals/deleteJournalEntryById/6fc2c7f5-75ae-4e85-865b-76282094c88c
+DELETE http://localhost:8082/journals/deleteJournalEntryById/prabhakar/4aa8d859-b789-4f0c-9bc7-73ccb14a8067
 
 ###
 GET http://localhost:8082/journals/getJournalEntriesByUser/prabhakar

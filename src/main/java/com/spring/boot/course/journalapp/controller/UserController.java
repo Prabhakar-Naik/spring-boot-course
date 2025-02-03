@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping(value = "/createUser")
     public String createUser(@RequestBody User user) {
-        return this.userService.saveUser(user);
+        return this.userService.save(user);
     }
 
 
@@ -40,6 +40,13 @@ public class UserController {
     public ResponseEntity<?> getUserByUserName(@PathVariable String userName) {
         return ResponseEntity.ok(this.userService.getUserByName(userName));
     }
+
+    @DeleteMapping(value = "/deleteById/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        this.userService.deleteById(id);
+        return ResponseEntity.ok("Deleted user with id " + id);
+    }
+
 
 
 }

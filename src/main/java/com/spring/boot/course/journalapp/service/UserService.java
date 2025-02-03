@@ -50,13 +50,11 @@ public class UserService {
         return userRepository.save(user).getUserName() + " registered Successfully";
     }
 
-    public String saveUser(User user) {
+    public void saveUser(User user) {
         User byUserName = this.userRepository.findByUserName(user.getUserName());
         if ( byUserName != null) {
             userRepository.save(user);
-            return "User exists";
         }
-        return "Not Updated.";
     }
 
     public ResponseEntity<?> updateUser(User user, String username) {

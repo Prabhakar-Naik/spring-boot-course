@@ -9,7 +9,8 @@ Content-Type: application/json
   "userName": "prabhakar",
   "email": "prabhakar@gmail.com",
   "sentimentAnalysis": false,
-  "password": "prabha225"
+  "password": "prabha225",
+  "roles": ["USER"]
 }
 
 ###
@@ -22,4 +23,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8082/users/getUserByUserName/prabha
+DELETE http://localhost:8082/users/deleteById/8fc37d0f-c68e-4475-8e59-d4dcdd6956c2
+
+###
+GET http://localhost:8082/users/getUserByUserName/prabhakar

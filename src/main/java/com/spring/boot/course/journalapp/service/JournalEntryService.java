@@ -24,15 +24,17 @@ public class JournalEntryService {
     private UserService userService;
 
     @Transactional
-    public void saveEntry(JournalEntry journalEntry, String userName) {
+    public String saveEntry(JournalEntry journalEntry, String userName) {
         User user = userService.getUserByName(userName);
-
+        if (user == null) {
+            return "User not found";
+        }
         journalEntry.setId(UUID.randomUUID().toString());
         journalEntry.setPublishDate(LocalDate.now());
         JournalEntry saved = journalEntryRepository.save(journalEntry);
-
         user.getJournalEntries().add(saved);
         userService.saveUser(user);
+        return "Successfully saved journal entry "+ journalEntry;
     }
 
     public void save(JournalEntry journalEntry) {

@@ -31,4 +31,11 @@ public class User {
     private List<JournalEntry> journalEntries = new ArrayList<>();
     private List<String> roles;
 
+    public List<JournalEntry> getJournalEntries() {
+        return journalEntries;
+    }
+
+    public void setJournalEntries(List<JournalEntry> journalEntries) {
+        this.journalEntries = journalEntries;
+    }
 }

@@ -31,12 +31,10 @@ public class JournalEntryController {
         return ResponseEntity.notFound().build();
     }
 
-
-
     @PostMapping(value = "/saveJournalEntry/{userName}")
     public ResponseEntity<String> saveJournalEntry(@RequestBody JournalEntry journalEntry, @PathVariable String userName) {
-        this.journalEntryService.saveEntry(journalEntry, userName);
-        return ResponseEntity.ok("Successfully saved journal entry "+ journalEntry);
+        String response = this.journalEntryService.saveEntry(journalEntry, userName);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping(value = "/updateJournalEntry")
@@ -50,10 +48,16 @@ public class JournalEntryController {
         return ResponseEntity.ok(this.journalEntryService.findById(id));
     }
 
-    @DeleteMapping("/deleteJournalEntryById/{id}")
-    public ResponseEntity<String> deleteJournalEntryById(@PathVariable String id) {
+    @DeleteMapping("/deleteJournalEntryById/{userName}/{id}")
+    public ResponseEntity<String> deleteJournalEntryById(@PathVariable String id, @PathVariable String userName) {
+        boolean delete = journalEntryService.deleteById(id, userName);
+        return ResponseEntity.ok("Successfully deleted journal entry "+delete+" "+ id);
+    }
+
+    @DeleteMapping(value = "/deleteById/{id}")
+    public ResponseEntity<String> deleteById(@PathVariable String id) {
         journalEntryService.deleteById(id);
-        return ResponseEntity.ok("Successfully deleted journal entry "+ id);
+        return ResponseEntity.ok("Successfully deleted journal entry "+id);
     }
 
     @GetMapping(value = "/getAllJournalEntries")
