@@ -61,6 +61,7 @@ public class UserService {
         User userInDB = this.userRepository.findByUserName(username);
         if (userInDB != null) {
             userInDB.setUserName(user.getUserName());
+            userInDB.setEmail(user.getEmail());
             userInDB.setPassword(user.getPassword());
             this.userRepository.save(userInDB);
             return ResponseEntity.ok("Updated");
@@ -85,8 +86,17 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void deleteById(String id) {
-        userRepository.deleteById(id);
+    public String deleteById(String id) {
+        try {
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                userRepository.delete(user.get());
+                return "Deleted Successfully";
+            }else
+                return "User Not Found with --> "+ id;
+        }catch (Exception e) {
+           return e.getMessage();
+        }
     }
 
 

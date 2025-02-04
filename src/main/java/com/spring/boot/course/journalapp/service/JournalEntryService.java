@@ -23,18 +23,22 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
-    @Transactional
+//    @Transactional
     public String saveEntry(JournalEntry journalEntry, String userName) {
-        User user = userService.getUserByName(userName);
-        if (user == null) {
-            return "User not found";
+        try {
+            User user = userService.getUserByName(userName);
+            if (user == null) {
+                return "User not found";
+            }
+            journalEntry.setId(UUID.randomUUID().toString());
+            journalEntry.setPublishDate(LocalDate.now());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            userService.saveUser(user);
+            return "Successfully saved journal entry "+ journalEntry;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        journalEntry.setId(UUID.randomUUID().toString());
-        journalEntry.setPublishDate(LocalDate.now());
-        JournalEntry saved = journalEntryRepository.save(journalEntry);
-        user.getJournalEntries().add(saved);
-        userService.saveUser(user);
-        return "Successfully saved journal entry "+ journalEntry;
     }
 
     public void save(JournalEntry journalEntry) {
@@ -49,7 +53,7 @@ public class JournalEntryService {
         return this.journalEntryRepository.findById(id).orElse(null);
     }
 
-    public void update(JournalEntry journalEntry) {
+    public JournalEntry update(JournalEntry journalEntry) {
         JournalEntry old = this.journalEntryRepository.findById(journalEntry.getId()).orElse(null);
 
         if (old != null) {
@@ -71,7 +75,9 @@ public class JournalEntryService {
                     LocalDate.now() : old.getPublishDate()
             );
             this.journalEntryRepository.save(old);
+            return old;
         }
+        return null;
         // or
         /*if (old.isPresent()) {
             old.get().setTitle(journalEntry.getTitle());
@@ -83,8 +89,14 @@ public class JournalEntryService {
 
     }
 
-    public void deleteById(String id) {
-        this.journalEntryRepository.deleteById(id);
+    public String deleteById(String id) {
+        Optional<JournalEntry> journalEntry = this.journalEntryRepository.findById(id);
+        if (journalEntry.isPresent()) {
+            journalEntryRepository.delete(journalEntry.get());
+            return "Deleted Successfully";
+        }else
+            return "Entry Not Found with --> "+ id;
+
     }
 
     @Transactional
