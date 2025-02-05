@@ -151,7 +151,7 @@ public class SpringBootContent {
     // @SpringBootApplication Internal Working
     /*
     we will understand the @SpringBootApplication Internal Working flow, but before you
-    must have knowledge on below concepts. you will got the clear picture on Spring Boot.
+    must have knowledge on below concepts. you will get the clear picture on Spring Boot.
 
     1. IOC: (Inversion Of Control): / ApplicationContext
             IOC stands for Inversion of Control.

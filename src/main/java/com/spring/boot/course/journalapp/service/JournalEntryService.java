@@ -110,7 +110,7 @@ public class JournalEntryService {
                 this.journalEntryRepository.deleteById(id);
             }
         } catch (Exception e) {
-            log.error("Error ",e);
+            //log.error("Error ",e);
             throw new RuntimeException("An error occurred while deleting the entry.", e);
         }
         return removed;
