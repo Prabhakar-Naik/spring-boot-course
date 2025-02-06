@@ -17,16 +17,9 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @GetMapping(value = "/getAllUsers")
     public List<User> getAllUsers() {
         return this.userService.getAllUsers();
-    }
-
-
-    @PostMapping(value = "/createUser")
-    public String createUser(@RequestBody User user) {
-        return this.userService.save(user);
     }
 
 

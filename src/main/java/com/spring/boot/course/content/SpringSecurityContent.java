@@ -72,8 +72,95 @@ public class SpringSecurityContent {
           By extending it, you can configure and customize spring security for your application
           needs.
 
-     
-     --> Spring Security
+          http.authorizeHttpRequests:
+            This tells Spring Security to start authorizing the requests.
+
+          http.requestMatchers("/public/**").permitAll():
+            This part specifies that HTTP request matching the path "/public/** should be permitted
+            (allowed) for all users, whether they are authenticated or not.
+
+          http.anyRequest().authenticated():
+            This is more general matcher that specifies any request (not already matched by previous
+            matchers) should be authenticated, meaning users have to provide valid credentials to
+            access those endpoints.
+
+            you can access the "/public/**" endpoints without any authentication. However, if you
+            try to access another endpoint, you will be redirected to a login form.
+
+          http.and();
+            This is a method to join several configurations. It helps to continue the configuration
+            from the root(HttpSecurity).
+
+          http.formLogin():
+            This enables form-based authentication. By default, it will provide a form for the user
+            to enter their username and password. If the user is not authenticated, and they try to
+            access a secured endpoint, they'll be redirected to the default login form.
+
+            when we use the .formLogin() method in our security configuration without specifying
+            .loginPage("/custom-path"), the default login page becomes active.
+
+    */
+
+
+    /*
+     --> Spring Security provides an in-built controller class that handle the /login path.
+         This Controller is responsible for rendering the default login form when a GET
+         request is made to /login
+
+         By default, Spring Security also provides logout functionality. when .logout() is
+         configured, a POST request to /logout will log the user out and invalidate their session.
+
+         Basic Authentication, by its design, is stateless
+
+         some applications do mix Basic Authentication with Session management for various reasons.
+         This is not standard behaviour and requires additional setup and logic.
+
+         In such scenarios, once the user's credentials verified via Basic Authentication,
+         a session might be established, and the client is provided a session cookie.
+
+         This way, the client won't need to send the authorization header with every request, and the
+         server can rely on the session cookie to identify the authenticated user.
+
+     ==> when you log in with Spring security, it manages your authentication across multiple
+         requests, despite HTTP being stateless
+
+         1. Session Creation:
+                After successful authentication, an HTTP session if formed. Your authentication
+                details are stored in this session.
+         2. Session Cookie:
+                A JSESSIONID cookie is sent to your browser, which gets sent back with subsequent
+                requests, helping the server recognize your session.
+         3. Security Context:
+                Using the JSESSIONID, Spring Security fetches your authentication details for
+                each request.
+         4. Session Timeout:
+                Session have a limited life. If you are inactive past this limit, you're logged out.
+         5. Logout:
+                When logging out, your session ends, and the related cookie is removed.
+         6. Remember-Me:
+                Spring Security can remember you even after the session ends using a different
+                persistent cookie (typically have a longer lifespan).
+
+     --> In essence, Spring Security leverages sessions and cookie, mainly JSESSIONID, to ensure
+         you remain authenticated across requests.
+
+     We want our Spring Boot application to authenticate users based on their credentials stored
+     in a MongoDB database.
+
+     This means that users and their password(hashed) will be stored in MongoDB, and when a user
+     tries to log in, the system should check the provided credentials against what's stored in
+     the database.
+
+     We want our Spring Boot application to authenticate users based on their credentials stored
+     in a MongoDB database.
+
+     steps:
+     1. A User entity to represent the user data model.
+     2. A repository UserRepository to interact with MongoDB.
+     3. UserDetailService implementation to fetch user details.
+     4. A Configuration SecurityConfig to integrate everything with Spring Security.
+
+
 
     */
 }
