@@ -3,12 +3,14 @@ package com.spring.boot.course.journalapp.controller;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -17,14 +19,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/getAllUsers")
-    public List<User> getAllUsers() {
-        return this.userService.getAllUsers();
-    }
-
-
     @PutMapping(value = "/updateUser/{userName}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String userName) {
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
         return this.userService.updateUser(user, userName);
     }
 

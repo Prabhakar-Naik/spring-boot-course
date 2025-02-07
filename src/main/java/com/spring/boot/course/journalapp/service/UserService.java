@@ -2,15 +2,18 @@ package com.spring.boot.course.journalapp.service;
 
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 public class UserService {
@@ -23,31 +26,37 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /*public boolean saveNewUser(User user) {
+    public boolean saveNewUser(User user) {
         try {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepository.save(user);
             return true;
         } catch (Exception e) {
-            log.error("hahahhahhahahahah");
-            log.warn("hahahhahhahahahah");
-            log.info("hahahhahhahahahah");
-            log.debug("hahahhahhahahahah");
-            log.trace("hahahhahhahahahah");
             return false;
         }
     }
 
-    public void saveAdmin(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER", "ADMIN"));
-        userRepository.save(user);
-    }*/
+//    public void saveAdmin(User user) {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        user.setRoles(Arrays.asList("USER", "ADMIN"));
+//        userRepository.save(user);
+//    }
 
     public String save(User user) {
         user.setId(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("USER"));
+        if (this.userRepository.findByUserName(user.getUserName()) != null) {
+            return "User already exists";
+        }
+        return userRepository.save(user).getUserName() + " registered Successfully";
+    }
+
+    public String saveAdmin(User user) {
+        user.setId(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(List.of("USER","ADMIN"));
         if (this.userRepository.findByUserName(user.getUserName()) != null) {
             return "User already exists";
         }
@@ -60,6 +69,8 @@ public class UserService {
             userRepository.save(user);
         }
     }
+
+
 
     public ResponseEntity<?> updateUser(User user, String username) {
         User userInDB = this.userRepository.findByUserName(username);

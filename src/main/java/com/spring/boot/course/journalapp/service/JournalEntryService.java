@@ -4,7 +4,6 @@ import com.spring.boot.course.journalapp.entity.JournalEntry;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.JournalEntryRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +21,7 @@ public class JournalEntryService {
 
     @Autowired
     private UserService userService;
-
+//    This annotation works on server databases like mongo atlas and deployed in AWS or GCP
 //    @Transactional
     public String saveEntry(JournalEntry journalEntry, String userName) {
         try {
@@ -99,7 +98,8 @@ public class JournalEntryService {
 
     }
 
-    @Transactional
+//    This annotation works on server databases like mongo atlas and deployed in AWS or GCP
+//    @Transactional
     public boolean deleteById(String id, String userName) {
         boolean removed = false;
         try {

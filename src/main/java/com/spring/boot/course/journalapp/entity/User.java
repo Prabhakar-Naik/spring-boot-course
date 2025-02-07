@@ -86,4 +86,17 @@ public class User {
     public void setJournalEntries(List<JournalEntry> journalEntries) {
         this.journalEntries = journalEntries;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", sentimentAnalysis=" + sentimentAnalysis +
+                ", password='" + password + '\'' +
+                ", journalEntries=" + journalEntries +
+                ", roles=" + roles +
+                '}';
+    }
 }
