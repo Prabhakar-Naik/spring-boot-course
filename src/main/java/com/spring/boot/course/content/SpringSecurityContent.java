@@ -160,7 +160,5 @@ public class SpringSecurityContent {
      3. UserDetailService implementation to fetch user details.
      4. A Configuration SecurityConfig to integrate everything with Spring Security.
 
-
-
     */
 }
