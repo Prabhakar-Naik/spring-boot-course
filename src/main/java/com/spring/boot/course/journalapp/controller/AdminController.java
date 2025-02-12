@@ -1,7 +1,9 @@
 package com.spring.boot.course.journalapp.controller;
 
+import com.spring.boot.course.cache.AppCache;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+
+    @Autowired
+    private AppCache appCache;
 
     public AdminController(UserService userService) {
         this.userService = userService;
@@ -27,6 +32,10 @@ public class AdminController {
         return this.userService.getAllUsers();
     }
 
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
+    }
 
 
 }
