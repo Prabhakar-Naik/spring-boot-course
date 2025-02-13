@@ -1,11 +1,13 @@
 package com.spring.boot.course.journalapp.entity;
 
+import com.spring.boot.course.enums.Sentiment;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.Date;
+
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
@@ -18,6 +20,7 @@ public class JournalEntry {
     private String description;
     private String author;
     private LocalDate publishDate;
+    private Sentiment sentiment;
 
     public String getId() {
         return id;
@@ -57,5 +60,13 @@ public class JournalEntry {
 
     public void setPublishDate(LocalDate publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public Sentiment getSentiment() {
+        return sentiment;
+    }
+
+    public void setSentiment(Sentiment sentiment) {
+        this.sentiment = sentiment;
     }
 }

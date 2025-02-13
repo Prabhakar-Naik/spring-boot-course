@@ -22,6 +22,7 @@ public class AppCache {
 
     public Map<String, String> appCache;
 
+
     @PostConstruct
     public void init(){
         appCache = new HashMap<>();
