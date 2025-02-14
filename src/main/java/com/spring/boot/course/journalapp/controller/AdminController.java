@@ -1,7 +1,9 @@
 package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.cache.AppCache;
+import com.spring.boot.course.journalapp.entity.ConfigJournalAppEntity;
 import com.spring.boot.course.journalapp.entity.User;
+import com.spring.boot.course.journalapp.service.ConfigService;
 import com.spring.boot.course.journalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,14 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+    private final ConfigService configService;
 
     @Autowired
     private AppCache appCache;
 
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, ConfigService configService) {
         this.userService = userService;
+        this.configService = configService;
     }
 
     @PostMapping(value = "/createAdmin")
@@ -36,6 +40,17 @@ public class AdminController {
     public void clearAppCache(){
         appCache.init();
     }
+
+    @PostMapping(value = "/saveCredentials")
+    public String saveCredentials(@RequestBody ConfigJournalAppEntity entity){
+        return this.configService.saveCredentials(entity);
+    }
+
+    @GetMapping(value = "/getCredentials")
+    public List<ConfigJournalAppEntity> getCredentials() {
+        return this.configService.getAll();
+    }
+
 
 
 }

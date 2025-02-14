@@ -1,7 +1,10 @@
 package com.spring.boot.course.journalapp.controller;
 
+import com.spring.boot.course.api.response.WeatherResponse;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.UserService;
+import com.spring.boot.course.journalapp.service.WeatherService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +17,11 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final WeatherService weatherService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, WeatherService weatherService) {
         this.userService = userService;
+        this.weatherService = weatherService;
     }
 
     @PutMapping(value = "/updateUser/{userName}")
@@ -36,6 +41,17 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
         String response = this.userService.deleteById(id);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping(value = "/getWeatherData")
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        WeatherResponse weatherResponse = weatherService.getWeather("Mumbai");
+        String greeting = "";
+        if (weatherResponse != null) {
+            greeting = ", Weather feels like " + weatherResponse.getCurrent().getFeelslike();
+        }
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
     }
 
 

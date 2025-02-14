@@ -6,3 +6,8 @@
 #          course:
 #            SpringBootCourseApplication: debug
 ## we can off the specific package logs if you have a vast confusion
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter public class WeatherResponse {
+
     private Current current;
 
     @Getter
@@ -17,6 +18,31 @@ import java.util.List;
         @JsonProperty("weather_descriptions")
         private List<String> weatherDescriptions;
         private int feelslike;
+
+        public int getFeelslike() {
+            return feelslike;
+        }
+        public void setFeelslike(int feelslike) {
+            this.feelslike = feelslike;
+        }
+
+        public int getTemperature() {
+            return temperature;
+        }
+        public void setTemperature(int temperature) {
+            this.temperature = temperature;
+        }
+        public List<String> getWeatherDescriptions() {
+            return weatherDescriptions;
+        }
+        public void setWeatherDescriptions(List<String> weatherDescriptions) {
+            this.weatherDescriptions = weatherDescriptions;
+        }
+
+    }
+
+    public Current getCurrent() {
+        return current;
     }
 
 

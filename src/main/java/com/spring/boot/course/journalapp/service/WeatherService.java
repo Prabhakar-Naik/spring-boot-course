@@ -16,31 +16,32 @@ public class WeatherService {
     @Value("${weather.api.key}")
     private String apiKey;
 
-    private static final String API = "https://api.weatherstack.com/current?access_key=key&query=city";
-
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private AppCache appCache;
 
-//    @Autowired
-//    private RedisService redisService;
+    @Autowired
+    private RedisService redisService;
 
+
+/*    public WeatherResponse getWeather(String city) {
+        String finalAPI = API.replace("{city}", city).replace("{key}", apiKey);
+        ResponseEntity<WeatherResponse> response1 = restTemplate.getForEntity(finalAPI, WeatherResponse.class);
+       // ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.POST,null, WeatherResponse.class);
+        WeatherResponse weatherResponse = response1.getBody();
+        return weatherResponse;
+    }*/
 
     public WeatherResponse getWeather(String city) {
-        String finalAPI = API.replace("{city}", city).replace("{key}", apiKey);
-        ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.POST,null, WeatherResponse.class);
-        WeatherResponse weatherResponse = response.getBody();
-        return weatherResponse;
-    }
-
-    /*public WeatherResponse getWeather(String city) {
         WeatherResponse weatherResponse = redisService.get("weather_of_" + city, WeatherResponse.class);
         if (weatherResponse != null) {
             return weatherResponse;
         } else {
-            String finalAPI = appCache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(Placeholders.CITY, city).replace(Placeholders.API_KEY, apiKey);
+            String finalAPI = appCache.appCache.get(AppCache.keys.WEATHER_API.toString())
+                    .replace(Placeholders.CITY, city)
+                    .replace(Placeholders.API_KEY, apiKey);
             ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.POST, null, WeatherResponse.class);
             WeatherResponse body = response.getBody();
             if (body != null) {
@@ -48,7 +49,7 @@ public class WeatherService {
             }
             return body;
         }
+    }
 
-    }*/
 
 }

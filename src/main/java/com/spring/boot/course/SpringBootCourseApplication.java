@@ -1,14 +1,22 @@
 package com.spring.boot.course;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.MongoTransactionManager;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @SpringBootApplication
 @EnableTransactionManagement
@@ -29,10 +37,11 @@ public class SpringBootCourseApplication {
 	}
 	// MongoTransactionManager		==> implementation class
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
 
+
+	@Bean
+	public RestTemplate restTemplate() throws IOException, URISyntaxException {
+		return new RestTemplate();
 	}
 
 }
