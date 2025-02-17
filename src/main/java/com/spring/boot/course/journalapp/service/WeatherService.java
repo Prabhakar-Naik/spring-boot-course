@@ -26,13 +26,15 @@ public class WeatherService {
     private RedisService redisService;
 
 
-/*    public WeatherResponse getWeather(String city) {
+    /*
+    public WeatherResponse getWeather(String city) {
         String finalAPI = API.replace("{city}", city).replace("{key}", apiKey);
         ResponseEntity<WeatherResponse> response1 = restTemplate.getForEntity(finalAPI, WeatherResponse.class);
        // ResponseEntity<WeatherResponse> response = restTemplate.exchange(finalAPI, HttpMethod.POST,null, WeatherResponse.class);
         WeatherResponse weatherResponse = response1.getBody();
         return weatherResponse;
-    }*/
+    }
+    */
 
     public WeatherResponse getWeather(String city) {
         WeatherResponse weatherResponse = redisService.get("weather_of_" + city, WeatherResponse.class);

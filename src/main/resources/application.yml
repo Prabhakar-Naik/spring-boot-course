@@ -9,4 +9,4 @@
 spring:
   data:
     redis:
-      url: your url
+      url: redis://default:8H3Z4IOhH6tmfVh0355Vt6W7HGIioC18@redis-15001.c264.ap-south-1-1.ec2.redns.redis-cloud.com:15001
