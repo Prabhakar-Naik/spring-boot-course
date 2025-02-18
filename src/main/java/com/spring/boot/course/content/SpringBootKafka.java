@@ -43,8 +43,52 @@ public class SpringBootKafka {
         monitoring, and stream processing applications. It is highly adopted in modern
         architectures like microservices and event-driven systems.
 
+    */
 
-        
+    // Process of Kafka
+    /*
+    Key Concepts:
+        Apache Kafka is a distributed streaming platform designed to handle the ingestion,
+        processing, and delivery of high-volume, real-time data streams.
+
+        Producers: Applications that publish data to Kafka topics.
+        Topics: Categorized streams of records within Kafka.
+                Each message is assigned to a specific topic
+        Partitions: Each topic is divided into partitions, which are ordered sequences
+                    of records. This allows for high throughput and parallel processing.
+        Brokers: Servers that store and process data within a Kafka cluster.
+        Consumers: Applications that subscribe to topics and consume the published data
+        Consumers Groups: Groups of consumers that share a subscription to a topic.
+                  Each message in a partition is typically delivered to only one
+                  consumer within a consumer group, ensuring that messages are
+                  processed only once.
+
+     Key Features:
+        High Throughput: Kafka can handle massive volumes of data streams with
+                         extremely high throughput
+        Scalability: Kafka clusters can be easily scaled horizontally by adding
+                     more brokers to the cluster
+        Fault Tolerance: Data is replicated across multiple brokers, ensuring high
+                         availability and fault tolerance.
+        Durability: Messages are persisted to disk, ensuring data durability even
+                    in case of broker failures.
+        Ordered Delivery: Messages within a partition are delivered to consumers in
+                          the order they were produced.
+        Low Latency: Kafka provides very low latency for message delivery, making it
+                     suitable for real-time applications.
+     Use Cases:
+        Real-time data pipelines: Building data pipelines to ingest and process data
+                                  from various sources (e.g., sensor data, website logs,
+                                  social media feeds) in real-time
+        Stream processing: Performing real-time data analysis and transformations,
+                           such as filtering, aggregation, and windowing.
+        Message queuing: Handling asynchronous communication between different
+                         applications and services.
+        Log aggregation and monitoring: Collecting and analyzing log data from distributed
+                                        systems.
+        Website activity tracking: Tracking user activity on websites in real-time for
+                                   personalization and analytics.
+
 
     */
 }

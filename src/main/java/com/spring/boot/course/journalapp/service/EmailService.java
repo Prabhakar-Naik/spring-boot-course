@@ -6,6 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+//@Slf4j
 @Service
 public class EmailService {
 
@@ -20,6 +21,7 @@ public class EmailService {
             mail.setText(body);
             javaMailSender.send(mail);
         } catch (Exception e) {
+            //log.info("Exception while sendEmail :{}",e.getMessage());
             System.out.println("Exception while sendEmail "+ e);
         }
     }

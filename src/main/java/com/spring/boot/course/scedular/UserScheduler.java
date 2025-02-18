@@ -8,6 +8,7 @@ import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.UserRepositoryImpl;
 import com.spring.boot.course.journalapp.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +32,8 @@ public class UserScheduler {
     @Autowired
     private AppCache appCache;
 
-//    @Autowired
-//    private KafkaTemplate<String, SentimentData> kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, SentimentData> kafkaTemplate;
 
     @Scheduled(cron = "0 0 9 * * SUN")
     public void fetchUsersAndSendSaMail() {
@@ -58,7 +59,7 @@ public class UserScheduler {
                 sentimentData.setEmail(user.getEmail());
                 sentimentData.setSentiment("Sentiment for last 7 days " + mostFrequentSentiment);
                 try {
-                    //kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
+                    kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
                 } catch (Exception e) {
                     emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
                 }

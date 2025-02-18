@@ -1,6 +1,6 @@
 package com.spring.boot.course.content;
 
-public class SpringSecurityContent {
+public class SpringSecurity {
 
     // What is Spring Security ?
 
@@ -159,6 +159,11 @@ public class SpringSecurityContent {
      2. A repository UserRepository to interact with MongoDB.
      3. UserDetailService implementation to fetch user details.
      4. A Configuration SecurityConfig to integrate everything with Spring Security.
+
+    */
+
+    // What is JWT
+    /*
 
     */
 
