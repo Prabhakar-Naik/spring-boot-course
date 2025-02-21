@@ -2,8 +2,17 @@ package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.JournalEntryService;
+import com.spring.boot.course.journalapp.service.UserDetailsServiceImpl;
 import com.spring.boot.course.journalapp.service.UserService;
+import com.spring.boot.course.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,19 +25,43 @@ public class PublicController {
     private JournalEntryService journalEntryService;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @GetMapping(value = "/health-check")
     public String healthcheck() {
         return "OK";
     }
 
-    @PostMapping(value = "/createUser")
-    public String createUser(@RequestBody User user) {
+
+    @PostMapping(value = "/signup")
+    public String signup(@RequestBody User user) {
         return this.userService.save(user);
     }
 
     // login
+    @PostMapping(value = "/login")
+    public ResponseEntity<String> login(@RequestBody User user) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUserName(), user.getPassword()));
+            UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(user.getUserName());
+            String jwt = jwtUtils.generateToken(userDetails.getUsername());
+            return new ResponseEntity<>(jwt, HttpStatus.OK);
+        } catch (AuthenticationException e) {
+            //log.info("Exception: {}", e.getMessage());
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     // forgot password
 

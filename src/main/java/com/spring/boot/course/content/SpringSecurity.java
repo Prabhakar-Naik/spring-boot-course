@@ -164,6 +164,35 @@ public class SpringSecurity {
 
     // What is JWT
     /*
+        JSON WEB TOKEN
+            JWT is a way to securely transmit information between parties as a JSON Object.
+            JWT is a compact, URL-safe token that can carry information between parties.
+
+            A JWT is a String consisting of three parts, seperated by dots.
+            Header, Payload, Signature
+        Header:
+            The Header typically consists of two parts: the type of the token (JWT) and
+            the signing algorithm being used, such as HMAC SHA256 or RSA
+            {
+                "alg": "HS256",
+                "typ": "JWT",
+            }
+        Payload:
+            The Payload contains the claims. Claims are statements about an entity (typically,
+            the user) and additional metadata.
+            {
+                "email": "email@gmail.com",
+                "name": "Prabhakar K",
+            }
+        Signature:
+            The Signature is used to verify that the sender of the JWT is who it says it is
+            and to ensure that the message wasn't changed along the way.
+
+            To create the signature part, you have to take the encoded header, the encoded
+            header, the encoded payload, a secret, the algorithm specified in the header, and
+            sign that.
+
+
 
     */
 
