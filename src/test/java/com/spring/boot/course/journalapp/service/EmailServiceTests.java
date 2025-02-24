@@ -14,7 +14,7 @@ public class EmailServiceTests {
     @Disabled
     @Test
     void testSendMail() {
-        emailService.sendEmail("carnation_duchess348@slmail.me",
+        emailService.sendVerificationEmail("carnation_duchess348@slmail.me",
                 "Testing Java mail sender",
                 "Hi, aap kaise hain ?");
     }

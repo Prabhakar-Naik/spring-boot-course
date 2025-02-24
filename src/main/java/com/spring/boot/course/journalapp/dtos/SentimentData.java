@@ -6,12 +6,6 @@ public class SentimentData {
     private String sentiment;
 
     public SentimentData() {
-        super();
-    }
-
-    public SentimentData(String email, String sentiment) {
-        this.email = email;
-        this.sentiment = sentiment;
     }
 
     public String getEmail() {

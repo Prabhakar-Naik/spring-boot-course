@@ -1,9 +1,11 @@
 package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.journalapp.entity.User;
+import com.spring.boot.course.journalapp.model.UserLoginRequest;
 import com.spring.boot.course.journalapp.service.JournalEntryService;
 import com.spring.boot.course.journalapp.service.UserDetailsServiceImpl;
 import com.spring.boot.course.journalapp.service.UserService;
+import com.spring.boot.course.scedular.UserScheduler;
 import com.spring.boot.course.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,18 @@ public class PublicController {
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
+    @Autowired
+    private UserScheduler userScheduler;
+
     @GetMapping(value = "/health-check")
     public String healthcheck() {
         return "OK";
+    }
+
+
+    @GetMapping("/fetchMails")
+    public void fetchMails(){
+        this.userScheduler.fetchUsersAndSendSaMail();
     }
 
 
@@ -49,7 +60,7 @@ public class PublicController {
 
     // login
     @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody UserLoginRequest user) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
