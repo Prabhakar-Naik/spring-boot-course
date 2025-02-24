@@ -61,7 +61,8 @@ public class UserScheduler {
                 try {
                     kafkaTemplate.send("weekly-sentiments", sentimentData.getEmail(), sentimentData);
                 } catch (Exception e) {
-                    emailService.sendVerificationEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
+                    // kafka fall back synchronously
+                    emailService.sendEmail(sentimentData.getEmail(), "Sentiment for previous week", sentimentData.getSentiment());
                 }
             }
         }

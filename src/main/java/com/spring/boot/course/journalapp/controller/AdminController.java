@@ -5,6 +5,7 @@ import com.spring.boot.course.journalapp.entity.ConfigJournalAppEntity;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.ConfigService;
 import com.spring.boot.course.journalapp.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/admin")
+@Tag(name = "Admin APIs")
 public class AdminController {
 
     private final UserService userService;

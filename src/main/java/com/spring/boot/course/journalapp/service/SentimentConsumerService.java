@@ -18,7 +18,7 @@ public class SentimentConsumerService {
 
 
     private void sendEmail(SentimentData sentimentData) {
-        emailService.sendVerificationEmail(
+        emailService.sendEmail(
                 sentimentData.getEmail(),
                 "Sentiment for previous week",
                 sentimentData.getSentiment());

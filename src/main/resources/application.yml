@@ -9,10 +9,11 @@
 spring:
   data:
     redis:
-      url: your url
+      url: ${REDIS_URI}
+#      url: ${REDIS_URI}  # place holders
 
   kafka:
-    bootstrap-servers: ${KAFKA_SERVERS}
+    bootstrap-servers: ${KAFKA_SERVER}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -24,7 +25,8 @@ spring:
         spring:
           json:
             trusted:
-              packages: com.spring.boot.course.journalapp.model
+              packages: com.spring.boot.course.journalapp.*
+      client-id: ${KAFKA_CLIENT_ID}
     properties:
       security:
         protocol: SASL_SSL
@@ -35,3 +37,10 @@ spring:
       session:
         timeout:
           ms: 45000
+
+#springdoc:
+#  swagger-ui:
+#    enabled: true
+#    path: /docs
+#  packages-to-scan: com.spring.boot.course.journalapp.controller
+#  show-actuator: true

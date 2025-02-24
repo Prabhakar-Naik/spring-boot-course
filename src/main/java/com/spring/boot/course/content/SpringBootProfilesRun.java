@@ -1,8 +1,10 @@
 package com.spring.boot.course.content;
 
-public class SpringBootRun {
+public class SpringBootProfilesRun {
 
     /*
+    To set spring profile in the application you must choose only one default file like
+    application.properties   or application.yml
      how many way we can run spring boot application using different port number
 
      1. Using application.properties or application.yml
@@ -53,6 +55,10 @@ public class SpringBootRun {
             return factory;
         }
     }
+
+    priority: 1. command line arguments  or intellij param argument --server.port=9092
+              2. .properties
+              3. .yml
 
 
     */
