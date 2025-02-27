@@ -1,5 +1,6 @@
 package com.spring.boot.course.journalapp.controller;
 
+import com.spring.boot.course.journalapp.dtos.UserDTO;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.model.UserLoginRequest;
 import com.spring.boot.course.journalapp.service.JournalEntryService;
@@ -56,7 +57,7 @@ public class PublicController {
 
 
     @PostMapping(value = "/signup")
-    public String signup(@RequestBody User user) {
+    public String signup(@RequestBody UserDTO user) {
         return this.userService.save(user);
     }
 
@@ -77,8 +78,20 @@ public class PublicController {
     }
 
     // forgot password
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        String response = userService.forgotPassword(email);
+        return ResponseEntity.ok(response);
+    }
 
     // reset password
 
-    //
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        String response = userService.resetPassword(token, newPassword);
+        return ResponseEntity.ok(response);
+    }
+
+
+
 }

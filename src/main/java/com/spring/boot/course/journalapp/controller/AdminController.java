@@ -1,6 +1,7 @@
 package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.cache.AppCache;
+import com.spring.boot.course.journalapp.dtos.UserDTO;
 import com.spring.boot.course.journalapp.entity.ConfigJournalAppEntity;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.ConfigService;
@@ -17,6 +18,7 @@ import java.util.List;
 public class AdminController {
 
     private final UserService userService;
+
     private final ConfigService configService;
 
     @Autowired
@@ -28,7 +30,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/createAdmin")
-    public String createUser(@RequestBody User user) {
+    public String createUser(@RequestBody UserDTO user) {
         return this.userService.saveAdmin(user);
     }
 
