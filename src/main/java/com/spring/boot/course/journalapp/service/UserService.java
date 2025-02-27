@@ -1,6 +1,9 @@
 package com.spring.boot.course.journalapp.service;
 
+import com.spring.boot.course.journalapp.dtos.UserDTO;
+import com.spring.boot.course.journalapp.entity.ResetToken;
 import com.spring.boot.course.journalapp.entity.User;
+import com.spring.boot.course.journalapp.repository.ResetTokenRepository;
 import com.spring.boot.course.journalapp.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
@@ -22,18 +25,21 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ResetTokenRepository resetTokenRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, ResetTokenRepository resetTokenRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.resetTokenRepository = resetTokenRepository;
     }
 
-    public boolean saveNewUser(User user) {
+    public boolean saveNewUser(UserDTO userDTO) {
         try {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.setRoles(Arrays.asList("USER"));
+            User user = new User();
+            user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+            user.setRoles(List.of("USER"));
             userRepository.save(user);
             return true;
         } catch (Exception e) {
@@ -47,21 +53,23 @@ public class UserService {
 //        userRepository.save(user);
 //    }
 
-    public String save(User user) {
+    public String save(UserDTO userDTO) {
+        User user = new User();
         user.setId(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setRoles(List.of("USER"));
-        if (this.userRepository.findByUserName(user.getUserName()) != null) {
+        if (this.userRepository.findByUserName(userDTO.getUserName()) != null) {
             return "User already exists";
         }
         return userRepository.save(user).getUserName() + " registered Successfully";
     }
 
-    public String saveAdmin(User user) {
+    public String saveAdmin(UserDTO userDTO) {
+        User user = new User();
         user.setId(UUID.randomUUID().toString());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         user.setRoles(List.of("USER","ADMIN"));
-        if (this.userRepository.findByUserName(user.getUserName()) != null) {
+        if (this.userRepository.findByUserName(userDTO.getUserName()) != null) {
             return "User already exists";
         }
         return userRepository.save(user).getUserName() + " registered Successfully";
@@ -74,9 +82,33 @@ public class UserService {
         }
     }
 
+    public String forgotPassword(String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            String token = passwordEncoder.encode(UUID.randomUUID().toString());
+            ResetToken resetToken = new ResetToken(token, userOpt.get());
+            resetToken.setId(UUID.randomUUID().toString());
+            resetTokenRepository.save(resetToken);
+            return "Password reset token generated: " + token;
+        }
+        return "Email not found";
+    }
+
+    public String resetPassword(String token, String newPassword) {
+        Optional<ResetToken> resetTokenOpt = resetTokenRepository.findByToken(token);
+        if (resetTokenOpt.isPresent()) {
+            User user = resetTokenOpt.get().getUser();
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            resetTokenRepository.delete(resetTokenOpt.get());
+            return "Password reset successfully";
+        }
+        return "Invalid or expired token";
+    }
 
 
-    public ResponseEntity<?> updateUser(User user, String username) {
+
+    public ResponseEntity<?> updateUser(UserDTO user, String username) {
         User userInDB = this.userRepository.findByUserName(username);
         if (userInDB != null) {
             userInDB.setUserName(user.getUserName());

@@ -37,8 +37,6 @@ public class SpringBootCourseApplication {
 	}
 	// MongoTransactionManager		==> implementation class
 
-
-
 	@Bean
 	public RestTemplate restTemplate() throws IOException, URISyntaxException {
 		return new RestTemplate();

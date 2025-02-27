@@ -1,6 +1,7 @@
 package com.spring.boot.course.journalapp.controller;
 
 import com.spring.boot.course.api.response.WeatherResponse;
+import com.spring.boot.course.journalapp.dtos.UserDTO;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.service.UserService;
 import com.spring.boot.course.journalapp.service.WeatherService;
@@ -27,7 +28,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/updateUser/{userName}")
-    public ResponseEntity<?> updateUser(@RequestBody User user) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDTO user) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         return this.userService.updateUser(user, userName);

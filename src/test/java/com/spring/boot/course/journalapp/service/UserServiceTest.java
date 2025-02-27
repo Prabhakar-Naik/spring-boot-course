@@ -1,6 +1,7 @@
 package com.spring.boot.course.journalapp.service;
 
 
+import com.spring.boot.course.journalapp.dtos.UserDTO;
 import com.spring.boot.course.journalapp.entity.User;
 import com.spring.boot.course.journalapp.repository.UserRepository;
 import org.junit.jupiter.api.*;
@@ -127,7 +128,7 @@ public class UserServiceTest {
     @Disabled
     @ParameterizedTest
     @ArgumentsSource(UserArgumentProvider.class)
-    public void testSaveNewUser(User user){
+    public void testSaveNewUser(UserDTO user){
         assertTrue(this.userService.saveNewUser(user));
     }
 
