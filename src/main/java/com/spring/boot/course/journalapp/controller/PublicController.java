@@ -49,6 +49,11 @@ public class PublicController {
         return "OK";
     }
 
+    @GetMapping("/redirect")
+    public String redirectData(){
+        return "Hello it's Working...@";
+    }
+
 
     @GetMapping("/fetchMails")
     public void fetchMails(){

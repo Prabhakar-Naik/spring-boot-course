@@ -7,6 +7,13 @@
 #            SpringBootCourseApplication: debug
 ## we can off the specific package logs if you have a vast confusion
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
   data:
     redis:
       url: ${REDIS_URI}
